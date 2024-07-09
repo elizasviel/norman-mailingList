@@ -1,23 +1,10 @@
 import { useState } from "react";
-
 import "./App.css";
 
 function App() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-
-  const handleSubmit = () => {
-    fetch("http://localhost:3000/addUser", {
-      method: "POST",
-      body: JSON.stringify({ firstName, lastName, email }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      console.log(res.body);
-    });
-  };
 
   return (
     <>
@@ -25,14 +12,14 @@ function App() {
         <input
           type="text"
           placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          value={firstname}
+          onChange={(e) => setFirstname(e.target.value)}
         />
         <input
           type="text"
           placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          value={lastname}
+          onChange={(e) => setLastname(e.target.value)}
         />
         <input
           type="email"
@@ -40,7 +27,19 @@ function App() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button onClick={handleSubmit}>Submit</button>
+        <button
+          onClick={() => {
+            fetch("http://localhost:3000/users", {
+              method: "POST",
+              body: JSON.stringify({ firstname, lastname, email }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+          }}
+        >
+          Submit
+        </button>
       </div>
     </>
   );
