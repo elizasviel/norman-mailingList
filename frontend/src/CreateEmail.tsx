@@ -10,19 +10,17 @@ const CreateEmail = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
+          gap: "10px",
         }}
       >
-        <input
-          type="text"
+        <textarea
           placeholder="Subject"
           onChange={(e) => setSubject(e.target.value)}
         />
-        <input
-          type="text"
+        <textarea
           placeholder="Body"
           onChange={(e) => setBody(e.target.value)}
+          style={{ height: "50vh", textAlign: "left", verticalAlign: "top" }}
         />
         <button
           onClick={() => {
