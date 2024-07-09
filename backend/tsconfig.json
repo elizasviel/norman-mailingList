@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
-		"target": "es5",
+		"target": "ESNext",
 		"esModuleInterop": true,
-		"module": "commonjs",
+		"module": "ESNext",
 		"moduleResolution": "node",
 		"lib": [
 			"es2015"
