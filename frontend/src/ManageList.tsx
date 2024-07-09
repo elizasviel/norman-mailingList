@@ -13,9 +13,9 @@ const ManageList = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <h1>Manage List</h1>
-      <div>
+      <div style={{ overflowY: "scroll", height: "72vh" }}>
         {users.map((user, index) => (
           <div key={index}>
             <p>
@@ -38,6 +38,13 @@ const ManageList = () => {
             </p>
           </div>
         ))}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         <input
           type="text"
           placeholder="First Name"
