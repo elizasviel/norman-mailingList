@@ -9,14 +9,13 @@ const mg = mailgun.client({
   key: process.env.MAILGUN_API_KEY || key,
 });
 
-const sendEmail = () => {
+const sendEmail = (to: string, subject: string, body: string) => {
   mg.messages
     .create("sandbox3fdc655a61914ad2a1a5e8c10733daa1.mailgun.org", {
       from: "Excited User <mailgun@sandbox3fdc655a61914ad2a1a5e8c10733daa1.mailgun.org>",
-      to: ["normanqian@gmail.com"],
-      subject: "Hello2",
-      text: "Testing some Mailgun awesomeness!",
-      html: "<h1>Testing some Mailgun awesomeness!</h1>",
+      to: [to],
+      subject: subject,
+      text: body,
     })
     .then((msg) => console.log(msg)) // logs response data
     .catch((err) => console.log(err)); // logs any error
