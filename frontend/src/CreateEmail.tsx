@@ -24,7 +24,7 @@ const CreateEmail = () => {
         />
         <button
           onClick={() => {
-            fetch("http://localhost:3000/emails", {
+            fetch("http://localhost:3000/emails/1/send", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

@@ -13,9 +13,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  firstname String?
-  lastname  String?
+model mailingList {
+  id           Int            @id @default(autoincrement())
+  name         String
+  recentlySent recentlySent[] //which recently sent emails belong to this list?
+  recipients   recipient[] //which recipients belong to this list?
+}
+
+model recipient {
+  id            Int         @id @default(autoincrement())
+  email         String      @unique
+  firstname     String?
+  lastname      String?
+  mailingList   mailingList @relation(fields: [mailingListId], references: [id]) //which list does this user belong to?
+  mailingListId Int //this field "listId" is a reference to "id" in List
+}
+
+model recentlySent {
+  id            Int         @id @default(autoincrement())
+  subject       String
+  content       String
+  mailingList   mailingList @relation(fields: [mailingListId], references: [id]) //which list does this email belong to?
+  mailingListId Int //
 }

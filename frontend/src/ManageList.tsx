@@ -8,7 +8,7 @@ const emailChecker = new RegExp("^.+@.+\\..+$");
 //\\. matches the dot, slashes escape the dot
 
 const ManageList = () => {
-  const [users, setUsers] = useState<
+  const [recipients, setRecipients] = useState<
     { firstname: string; lastname: string; email: string; id: number }[]
   >([]);
   const [firstname, setFirstname] = useState("");
@@ -16,27 +16,30 @@ const ManageList = () => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/users")
+    fetch("http://localhost:3000/mailingLists/1")
       .then((res) => res.json())
-      .then((data) => setUsers(data));
+      .then((data) => setRecipients(data));
   }, []);
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <h1>Manage List</h1>
       <div style={{ overflowY: "scroll", height: "72vh" }}>
-        {users.map((user, index) => (
+        {recipients.map((recipient, index) => (
           <div key={index}>
             <p>
-              {user.firstname} {user.lastname} {user.email}
+              {recipient.firstname} {recipient.lastname} {recipient.email}
               <button
                 onClick={async () => {
-                  await fetch(`http://localhost:3000/users/${user.id}`, {
-                    method: "DELETE",
-                  });
-                  fetch("http://localhost:3000/users")
+                  await fetch(
+                    `http://localhost:3000/mailingLists/1/${recipient.id}`,
+                    {
+                      method: "DELETE",
+                    }
+                  );
+                  fetch("http://localhost:3000/mailingLists/1")
                     .then((res) => res.json())
-                    .then((data) => setUsers(data))
+                    .then((data) => setRecipients(data))
                     .then(() => {
                       console.log("fetched");
                     });
@@ -78,16 +81,16 @@ const ManageList = () => {
               alert("Invalid email");
               return;
             }
-            await fetch("http://localhost:3000/users", {
+            await fetch("http://localhost:3000/mailingLists/1/add", {
               method: "POST",
               body: JSON.stringify({ firstname, lastname, email }),
               headers: {
                 "Content-Type": "application/json",
               },
             });
-            fetch("http://localhost:3000/users")
+            fetch("http://localhost:3000/mailingLists/1")
               .then((res) => res.json())
-              .then((data) => setUsers(data))
+              .then((data) => setRecipients(data))
               .then(() => {
                 console.log("fetched");
               });

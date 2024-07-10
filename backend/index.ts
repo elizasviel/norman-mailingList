@@ -8,42 +8,87 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
+//return all mailing lists
+app.get("/mailingLists", async (req, res) => {
+  const mailingLists = await prisma.mailingList.findMany({});
+  res.send(mailingLists);
 });
 
-app.get("/users", async (req, res) => {
-  const users = await prisma.user.findMany({});
-  res.send(users);
-});
-
-app.post("/users", async (req, res) => {
-  const user = await prisma.user.create({
+//create a mailing list
+app.post("/mailingLists", async (req, res) => {
+  const mailingList = await prisma.mailingList.create({
     data: {
-      email: req.body.email,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
+      name: req.body.name,
     },
   });
-
-  res.send({ data: user });
+  res.send(mailingList);
 });
 
-app.delete("/users/:id", async (req, res) => {
-  const user = await prisma.user.delete({
+//delete a mailing list
+app.delete("/mailingLists/:id", async (req, res) => {
+  const mailingList = await prisma.mailingList.delete({
     where: {
       id: parseInt(req.params.id),
     },
   });
-  res.send({ data: user });
+  res.send(mailingList);
 });
 
-app.post("/emails", async (req, res) => {
-  const users = await prisma.user.findMany({});
+//return all recipients in a mailing list
+app.get("/mailingLists/:id", async (req, res) => {
+  const recipients = await prisma.recipient.findMany({
+    where: {
+      mailingListId: parseInt(req.params.id),
+    },
+  });
+  res.send(recipients);
+});
+
+//create a recipient and add to a mailing list
+app.post("/mailingLists/:id/add", async (req, res) => {
+  const recipient = await prisma.recipient.create({
+    data: {
+      email: req.body.email,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      mailingListId: parseInt(req.params.id),
+    },
+  });
+
+  res.send({ data: recipient });
+});
+
+//send an email to all recipients in a mailing list. Add the email to "recently sent"
+app.post("/mailingLists/:id/send", async (req, res) => {
+  const recipients = await prisma.recipient.findMany({
+    where: {
+      mailingListId: parseInt(req.params.id),
+    },
+  });
   const emails = await Promise.all(
-    users.map((user) => sendEmail(user.email, req.body.subject, req.body.body))
-  );
+    recipients.map((recipient) =>
+      sendEmail(recipient.email, req.body.subject, req.body.body)
+    )
+  ).then(() => {
+    prisma.recentlySent.create({
+      data: {
+        mailingListId: parseInt(req.params.id),
+        subject: req.body.subject,
+        content: req.body.content,
+      },
+    });
+  });
   res.send({ data: emails });
+});
+
+//delete a recipient from a mailing list
+app.delete("/mailingLists/:id/:recipientId", async (req, res) => {
+  const recipient = await prisma.recipient.delete({
+    where: {
+      id: parseInt(req.params.recipientId),
+    },
+  });
+  res.send({ data: recipient });
 });
 
 app.listen(3000, () => {
