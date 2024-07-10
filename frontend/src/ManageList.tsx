@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 
+const emailChecker = new RegExp("^.+@.+\\..+$");
+
+//^ and $ are start and end of string
+//.+ matches 1 or more characters
+//@ matches the @ symbol
+//\\. matches the dot, slashes escape the dot
+
 const ManageList = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<
+    { firstname: string; lastname: string; email: string; id: number }[]
+  >([]);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -65,6 +74,10 @@ const ManageList = () => {
         />
         <button
           onClick={async () => {
+            if (!emailChecker.test(email)) {
+              alert("Invalid email");
+              return;
+            }
             await fetch("http://localhost:3000/users", {
               method: "POST",
               body: JSON.stringify({ firstname, lastname, email }),
