@@ -1,12 +1,10 @@
 import formData from "form-data";
 import Mailgun from "mailgun.js";
 
-const key = "6be1f6fd29c60b6b3fe333975be9d052-8a084751-4aa0e14a";
-
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
   username: "api",
-  key: process.env.MAILGUN_API_KEY || key,
+  key: process.env.MAILGUN_API_KEY || "",
 });
 
 const sendEmail = (to: string, subject: string, body: string) => {
