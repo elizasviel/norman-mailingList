@@ -22,7 +22,7 @@ model mailingList {
 
 model recipient {
   id            Int         @id @default(autoincrement())
-  email         String      @unique
+  email         String
   firstname     String?
   lastname      String?
   mailingList   mailingList @relation(fields: [mailingListId], references: [id]) //which list does this user belong to?
@@ -36,3 +36,6 @@ model recentlySent {
   mailingList   mailingList @relation(fields: [mailingListId], references: [id]) //which list does this email belong to?
   mailingListId Int //
 }
+
+//a recipient can be in multiple lists?
+//a list can have multiple recipients?
