@@ -18,12 +18,12 @@ const BrowseLists = ({
       style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "lightblue",
+        backgroundColor: "#432818",
         padding: "10px",
-        width: "30vw",
+        width: "21vw",
       }}
     >
-      <h1 style={{ color: "black" }}>All Mailing Lists</h1>
+      <h1 style={{ color: "#FFE6A7" }}> Email Lists</h1>
       <div
         style={{
           display: "flex",
@@ -37,15 +37,17 @@ const BrowseLists = ({
               display: "flex",
               flexDirection: "row",
               width: "100%",
-              backgroundColor: "lightgreen",
+              backgroundColor: "#BB9457",
               color: "black",
+              alignItems: "center",
             }}
           >
             <div
               key={list.id}
               onClick={() => setSelectedList(list)}
               style={{
-                backgroundColor: "green",
+                alignContent: "center",
+                paddingLeft: "10px",
               }}
             >
               {list.name}
@@ -55,6 +57,9 @@ const BrowseLists = ({
                 backgroundColor: "black",
                 color: "white",
                 marginLeft: "auto",
+                padding: "10px",
+                width: "2px",
+                height: "2px",
               }}
               onClick={() => {
                 //check if list empty
@@ -74,9 +79,7 @@ const BrowseLists = ({
                     }
                   });
               }}
-            >
-              X
-            </button>
+            ></button>
           </div>
         ))}
       </div>
@@ -102,6 +105,7 @@ const BrowseLists = ({
           style={{
             backgroundColor: "darkgreen",
             marginLeft: "auto",
+            color: "#FFE6A7",
           }}
           onClick={async () => {
             await fetch("http://localhost:3000/mailingLists", {

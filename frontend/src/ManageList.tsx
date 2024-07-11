@@ -27,31 +27,50 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
         padding: "10px",
       }}
     >
-      <h1>{selectedList.name}</h1>
+      <h1 style={{ color: "#FFE6A7" }}>{selectedList.name}</h1>
       <div style={{ overflowY: "scroll" }}>
         {recipients.map((recipient: any, index: any) => (
-          <div key={index}>
-            <p>
+          <div
+            key={index}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              justifyItems: "center",
+              backgroundColor: "#BB9457",
+              height: "27px",
+            }}
+          >
+            <p style={{ color: "black", marginLeft: "10px" }}>
               {recipient.firstname} {recipient.lastname} {recipient.email}
-              <button
-                onClick={async () => {
-                  await fetch(
-                    `http://localhost:3000/mailingLists/${selectedList.id}/${recipient.id}`,
-                    {
-                      method: "DELETE",
-                    }
-                  );
-                  fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
-                    .then((res) => res.json())
-                    .then((data) => setRecipients(data))
-                    .then(() => {
-                      console.log("fetched");
-                    });
-                }}
-              >
-                x
-              </button>
             </p>
+            <button
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "black",
+                height: "2px",
+                width: "2px",
+              }}
+              onClick={async () => {
+                await fetch(
+                  `http://localhost:3000/mailingLists/${selectedList.id}/${recipient.id}`,
+                  {
+                    method: "DELETE",
+                  }
+                );
+                fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
+                  .then((res) => res.json())
+                  .then((data) => setRecipients(data))
+                  .then(() => {
+                    console.log("fetched");
+                  });
+              }}
+            >
+              x
+            </button>
           </div>
         ))}
       </div>
@@ -59,6 +78,7 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
         style={{
           display: "flex",
           flexDirection: "row",
+          marginTop: "auto",
         }}
       >
         <input
@@ -80,6 +100,10 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <button
+          style={{
+            backgroundColor: "darkgreen",
+            color: "#FFE6A7",
+          }}
           onClick={async () => {
             console.log(selectedList);
             if (!emailChecker.test(email)) {
