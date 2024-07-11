@@ -46,6 +46,7 @@ app.get("/mailingLists/:id", async (req, res) => {
 
 //create a recipient and add to a mailing list
 app.post("/mailingLists/:id/add", async (req, res) => {
+  console.log(req.params.id);
   const recipient = await prisma.recipient.create({
     data: {
       email: req.body.email,
