@@ -1,15 +1,10 @@
 import Dashboard from "./Dashboard";
 
-import {
-  SignedOut,
-  SignedIn,
-  SignInButton,
-  UserButton,
-} from "@clerk/clerk-react";
+import { SignedOut, SignedIn, SignInButton } from "@clerk/clerk-react";
 
 function App() {
   return (
-    <div>
+    <div style={{ backgroundColor: "red", height: "100%" }}>
       <SignedOut>
         <div
           style={{
@@ -18,7 +13,6 @@ function App() {
             textAlign: "center",
             alignItems: "center",
             justifyContent: "center",
-            height: "100vh",
           }}
         >
           <h1>Welcome to the Email Sender App!</h1>
@@ -27,7 +21,6 @@ function App() {
         </div>
       </SignedOut>
       <SignedIn>
-        {/* <UserButton></UserButton> */}
         <Dashboard />
       </SignedIn>
     </div>
