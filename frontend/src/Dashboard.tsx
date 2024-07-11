@@ -12,23 +12,32 @@ const Dashboard = () => {
           height: "100%",
           display: "flex",
           flexDirection: "row",
-          backgroundColor: "pink",
+          backgroundColor: "#99582A",
         }}
       >
         <BrowseLists setSelectedList={setSelectedList}></BrowseLists>
         <div
           style={{
-            width: "100%",
+            width: "50vw",
             alignContent: "center",
             justifyContent: "center",
             display: "flex",
             alignItems: "center",
           }}
         >
-          "No list selected"
+          <h1 style={{ color: "black" }}>No list selected</h1>
         </div>
-        <div style={{ marginLeft: "auto" }}>
-          <UserButton></UserButton>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginLeft: "auto",
+            width: "5%",
+          }}
+        >
+          <div style={{ transform: "scale(2)", paddingTop: "40px" }}>
+            <UserButton></UserButton>
+          </div>
         </div>
       </div>
     );
@@ -39,13 +48,22 @@ const Dashboard = () => {
           height: "100%",
           display: "flex",
           flexDirection: "row",
-          backgroundColor: "pink",
+          backgroundColor: "#99582A",
         }}
       >
         <BrowseLists setSelectedList={setSelectedList}></BrowseLists>
         <ManageList selectedList={selectedList}></ManageList>
-        <div style={{ marginLeft: "auto" }}>
-          <UserButton></UserButton>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginLeft: "auto",
+            width: "5%",
+          }}
+        >
+          <div style={{ transform: "scale(2)", paddingTop: "40px" }}>
+            <UserButton></UserButton>
+          </div>
         </div>
       </div>
     );

@@ -4,7 +4,7 @@ import { SignedOut, SignedIn, SignInButton } from "@clerk/clerk-react";
 
 function App() {
   return (
-    <div style={{ backgroundColor: "red", height: "100%" }}>
+    <div style={{ backgroundColor: "#432818", height: "100%" }}>
       <SignedOut>
         <div
           style={{
