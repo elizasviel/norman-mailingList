@@ -20,9 +20,15 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
   }, [selectedList]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "10px",
+      }}
+    >
       <h1>{selectedList.name}</h1>
-      <div style={{ overflowY: "scroll", height: "72vh" }}>
+      <div style={{ overflowY: "scroll" }}>
         {recipients.map((recipient: any, index: any) => (
           <div key={index}>
             <p>

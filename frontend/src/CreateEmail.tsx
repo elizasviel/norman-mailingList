@@ -20,7 +20,7 @@ const CreateEmail = () => {
         <textarea
           placeholder="Body"
           onChange={(e) => setBody(e.target.value)}
-          style={{ height: "50vh", textAlign: "left", verticalAlign: "top" }}
+          style={{ textAlign: "left", verticalAlign: "top" }}
         />
         <button
           onClick={() => {
