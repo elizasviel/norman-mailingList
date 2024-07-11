@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 
-const emailChecker = new RegExp("^.+@.+\\..+$");
-
-//^ and $ are start and end of string
-//.+ matches 1 or more characters
-//@ matches the @ symbol
-//\\. matches the dot, slashes escape the dot
-
 const ManageList = ({ selectedList }: { selectedList: any }) => {
-  console.log("selectedList", selectedList);
+  console.log(selectedList);
+  const emailChecker = new RegExp("^.+@.+\\..+$");
+  //^ and $ are start and end of string
+  //.+ matches 1 or more characters
+  //@ matches the @ symbol
+  //\\. matches the dot, slashes escape the dot
   const [recipients, setRecipients] = useState([]);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -19,11 +17,11 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
     fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
       .then((res) => res.json())
       .then((data) => setRecipients(data));
-  }, []);
+  }, [selectedList]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <h1>Manage List</h1>
+      <h1>{selectedList.name}</h1>
       <div style={{ overflowY: "scroll", height: "72vh" }}>
         {recipients.map((recipient: any, index: any) => (
           <div key={index}>
