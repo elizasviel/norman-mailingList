@@ -1,67 +1,20 @@
 import { useState, useEffect } from "react";
+import ManageList from "./ManageList";
+import BrowseLists from "./BrowseLists";
 
 const Dashboard = () => {
   const [recentlySent, setRecentlySent] = useState([]);
-  const [mailingLists, setMailingLists] = useState([]);
+
+  const [selectedList, setSelectedList] = useState({});
   const [newListName, setNewListName] = useState("");
 
-  useEffect(() => {
-    fetch("http://localhost:3000/mailingLists")
-      .then((res) => res.json())
-      .then((data) => setMailingLists(data));
-  }, []);
-
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <h2>Mailing Lists</h2>
-      <ul>
-        {mailingLists.map((list) => (
-          <li key={list.id}>
-            {list.name}
-            <button
-              onClick={async () => {
-                await fetch(`http://localhost:3000/mailingLists/${list.id}`, {
-                  method: "DELETE",
-                });
-                fetch("http://localhost:3000/mailingLists")
-                  .then((res) => res.json())
-                  .then((data) => setMailingLists(data));
-              }}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-      <input
-        type="text"
-        placeholder="New List Name"
-        value={newListName}
-        onChange={(e) => setNewListName(e.target.value)}
-      />
-      <button
-        onClick={async () => {
-          await fetch("http://localhost:3000/mailingLists", {
-            method: "POST",
-            body: JSON.stringify({ name: newListName }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-          fetch("http://localhost:3000/mailingLists")
-            .then((res) => res.json())
-            .then((data) => setMailingLists(data));
-        }}
-      >
-        Create New Mailing List
-      </button>
-      <h2>Recently Sent</h2>
-      <ul>
-        {recentlySent.map((email) => (
-          <li key={email.id}>{email.subject}</li>
-        ))}
-      </ul>
+    <div style={{ display: "flex", flexDirection: "row", height: "80vh" }}>
+      <BrowseLists setSelectedList={setSelectedList}></BrowseLists>
+      <ManageList
+        selectedList={selectedList}
+        setSelectedList={setSelectedList}
+      ></ManageList>
     </div>
   );
 };

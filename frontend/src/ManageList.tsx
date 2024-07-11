@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 const emailChecker = new RegExp("^.+@.+\\..+$");
 
@@ -7,16 +7,16 @@ const emailChecker = new RegExp("^.+@.+\\..+$");
 //@ matches the @ symbol
 //\\. matches the dot, slashes escape the dot
 
-const ManageList = () => {
-  const [recipients, setRecipients] = useState<
-    { firstname: string; lastname: string; email: string; id: number }[]
-  >([]);
+const ManageList = ({ selectedList }: { selectedList: any }) => {
+  console.log("selectedList", selectedList);
+  const [recipients, setRecipients] = useState([]);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/mailingLists/1")
+    console.log("hit");
+    fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
       .then((res) => res.json())
       .then((data) => setRecipients(data));
   }, []);
@@ -25,19 +25,19 @@ const ManageList = () => {
     <div style={{ display: "flex", flexDirection: "column" }}>
       <h1>Manage List</h1>
       <div style={{ overflowY: "scroll", height: "72vh" }}>
-        {recipients.map((recipient, index) => (
+        {recipients.map((recipient: any, index: any) => (
           <div key={index}>
             <p>
               {recipient.firstname} {recipient.lastname} {recipient.email}
               <button
                 onClick={async () => {
                   await fetch(
-                    `http://localhost:3000/mailingLists/1/${recipient.id}`,
+                    `http://localhost:3000/mailingLists/${selectedList.id}/${recipient.id}`,
                     {
                       method: "DELETE",
                     }
                   );
-                  fetch("http://localhost:3000/mailingLists/1")
+                  fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
                     .then((res) => res.json())
                     .then((data) => setRecipients(data))
                     .then(() => {
@@ -77,18 +77,22 @@ const ManageList = () => {
         />
         <button
           onClick={async () => {
+            console.log(selectedList);
             if (!emailChecker.test(email)) {
               alert("Invalid email");
               return;
             }
-            await fetch("http://localhost:3000/mailingLists/1/add", {
-              method: "POST",
-              body: JSON.stringify({ firstname, lastname, email }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-            fetch("http://localhost:3000/mailingLists/1")
+            await fetch(
+              `http://localhost:3000/mailingLists/${selectedList.id}/add`,
+              {
+                method: "POST",
+                body: JSON.stringify({ firstname, lastname, email }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
               .then((res) => res.json())
               .then((data) => setRecipients(data))
               .then(() => {
