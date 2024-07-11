@@ -1,52 +1,25 @@
 import { useState, useEffect } from "react";
 
-const BrowseLists = ({ setSelectedList }: { setSelectedList: any }) => {
-  const [allMailingLists, setAllMailingLists] = useState([]);
-  const [createList, setCreateList] = useState("");
+const BrowseLists = ({
+  setSelectedList,
+}: {
+  setSelectedList: (list: any) => void;
+}) => {
+  const [mailingLists, getAllMailingLists] = useState([]);
+  const [newListName, setNewListName] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:3000/mailingLists")
       .then((res) => res.json())
-      .then((data) => setAllMailingLists(data));
+      .then((data) => getAllMailingLists(data));
   }, []);
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <p>
-        All Mailing Lists All Mailing Lists All Mailing Lists All Mailing Lists
-        All Mailing Lists
-      </p>
-      <input
-        type="text"
-        value={createList}
-        onChange={(e) => setCreateList(e.target.value)}
-      />
-      <button
-        onClick={async () => {
-          await fetch("http://localhost:3000/mailingLists", {
-            method: "POST",
-            body: JSON.stringify({ name: createList }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-          fetch("http://localhost:3000/mailingLists")
-            .then((res) => res.json())
-            .then((data) => setAllMailingLists(data));
-        }}
-      >
-        Create New List
-      </button>
-      <div style={{ overflowY: "auto" }}>
-        {allMailingLists.map((list) => (
-          <button
-            key={list.id}
-            onClick={() => {
-              setSelectedList(list);
-              console.log(list);
-            }}
-          >
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <h1>All Mailing Lists</h1>
+      {mailingLists.map((list) => (
+        <div key={list.id}>
+          <p onClick={() => setSelectedList(list)}>
             {list.name}
-            {list.id}
             <button
               onClick={() => {
                 //check if list empty
@@ -59,7 +32,7 @@ const BrowseLists = ({ setSelectedList }: { setSelectedList: any }) => {
                       }).then(() => {
                         fetch("http://localhost:3000/mailingLists")
                           .then((res) => res.json())
-                          .then((data) => setAllMailingLists(data));
+                          .then((data) => getAllMailingLists(data));
                       });
                     } else {
                       alert("List not empty");
@@ -69,9 +42,31 @@ const BrowseLists = ({ setSelectedList }: { setSelectedList: any }) => {
             >
               Delete
             </button>
-          </button>
-        ))}
-      </div>
+          </p>
+        </div>
+      ))}
+      <input
+        type="text"
+        value={newListName}
+        onChange={(e) => setNewListName(e.target.value)}
+      />
+
+      <button
+        onClick={async () => {
+          await fetch("http://localhost:3000/mailingLists", {
+            method: "POST",
+            body: JSON.stringify({ name: newListName }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          fetch("http://localhost:3000/mailingLists")
+            .then((res) => res.json())
+            .then((data) => getAllMailingLists(data));
+        }}
+      >
+        Create New List
+      </button>
     </div>
   );
 };

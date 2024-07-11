@@ -1,22 +1,24 @@
-import { useState, useEffect } from "react";
 import ManageList from "./ManageList";
 import BrowseLists from "./BrowseLists";
+import { useState } from "react";
 
 const Dashboard = () => {
-  const [recentlySent, setRecentlySent] = useState([]);
-
-  const [selectedList, setSelectedList] = useState({});
-  const [newListName, setNewListName] = useState("");
-
-  return (
-    <div style={{ display: "flex", flexDirection: "row", height: "80vh" }}>
-      <BrowseLists setSelectedList={setSelectedList}></BrowseLists>
-      <ManageList
-        selectedList={selectedList}
-        setSelectedList={setSelectedList}
-      ></ManageList>
-    </div>
-  );
+  const [selectedList, setSelectedList] = useState(null);
+  if (!selectedList) {
+    return (
+      <div style={{ display: "flex", flexDirection: "row", height: "100vh" }}>
+        <BrowseLists setSelectedList={setSelectedList}></BrowseLists>
+        <div>"No list selected"</div>
+      </div>
+    );
+  } else {
+    return (
+      <div style={{ display: "flex", flexDirection: "row", height: "100vh" }}>
+        <BrowseLists setSelectedList={setSelectedList}></BrowseLists>
+        <ManageList selectedList={selectedList}></ManageList>
+      </div>
+    );
+  }
 };
 
 export default Dashboard;
