@@ -2,6 +2,7 @@ import ManageList from "./ManageList";
 import BrowseLists from "./BrowseLists";
 import { useState } from "react";
 import { UserButton } from "@clerk/clerk-react";
+import CreateEmail from "./CreateEmail";
 
 const Dashboard = () => {
   const [selectedList, setSelectedList] = useState(null);
@@ -27,18 +28,6 @@ const Dashboard = () => {
         >
           <h1 style={{ color: "black" }}>No list selected</h1>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginLeft: "auto",
-            width: "5%",
-          }}
-        >
-          <div style={{ transform: "scale(2)", paddingTop: "40px" }}>
-            <UserButton></UserButton>
-          </div>
-        </div>
       </div>
     );
   } else {
@@ -49,16 +38,17 @@ const Dashboard = () => {
           display: "flex",
           flexDirection: "row",
           backgroundColor: "#99582A",
+          gap: "40px",
         }}
       >
         <BrowseLists setSelectedList={setSelectedList}></BrowseLists>
         <ManageList selectedList={selectedList}></ManageList>
+        <CreateEmail></CreateEmail>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            marginLeft: "auto",
-            width: "5%",
+            paddingLeft: "20px",
           }}
         >
           <div style={{ transform: "scale(2)", paddingTop: "40px" }}>

@@ -29,30 +29,40 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
     >
       <h1 style={{ color: "#FFE6A7" }}>{selectedList.name}</h1>
       <div style={{ overflowY: "scroll" }}>
+        <div
+          style={{ display: "flex", flexDirection: "row", color: "#FFE6A7" }}
+        >
+          <div style={{ width: "31.5%" }}>First Name</div>
+          <div style={{ width: "30.5%" }}>Last Name</div>
+          <div style={{ width: "33%" }}>Email</div>
+        </div>
+        <br></br>
         {recipients.map((recipient: any, index: any) => (
           <div
             key={index}
             style={{
+              backgroundColor: "#484848",
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
               justifyItems: "center",
-              backgroundColor: "#BB9457",
               height: "27px",
             }}
           >
-            <p style={{ color: "black", marginLeft: "10px" }}>
-              {recipient.firstname} {recipient.lastname} {recipient.email}
-            </p>
+            <td style={{ width: "33%" }}>{recipient.firstname}</td>
+            <td style={{ width: "33%" }}>{recipient.lastname}</td>
+            <td style={{ width: "33%" }}>{recipient.email}</td>
+
             <button
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                color: "black",
-                height: "2px",
-                width: "2px",
+                borderRadius: "0px",
+                color: "white",
+                height: "100%",
+                width: "6%",
               }}
               onClick={async () => {
                 await fetch(
@@ -93,43 +103,45 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
           value={lastname}
           onChange={(e) => setLastname(e.target.value)}
         />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button
-          style={{
-            backgroundColor: "darkgreen",
-            color: "#FFE6A7",
-          }}
-          onClick={async () => {
-            console.log(selectedList);
-            if (!emailChecker.test(email)) {
-              alert("Invalid email");
-              return;
-            }
-            await fetch(
-              `http://localhost:3000/mailingLists/${selectedList.id}/add`,
-              {
-                method: "POST",
-                body: JSON.stringify({ firstname, lastname, email }),
-                headers: {
-                  "Content-Type": "application/json",
-                },
+        <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button
+            style={{
+              backgroundColor: "darkgreen",
+              color: "#FFE6A7",
+            }}
+            onClick={async () => {
+              console.log(selectedList);
+              if (!emailChecker.test(email)) {
+                alert("Invalid email");
+                return;
               }
-            );
-            fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
-              .then((res) => res.json())
-              .then((data) => setRecipients(data))
-              .then(() => {
-                console.log("fetched");
-              });
-          }}
-        >
-          Submit
-        </button>
+              await fetch(
+                `http://localhost:3000/mailingLists/${selectedList.id}/add`,
+                {
+                  method: "POST",
+                  body: JSON.stringify({ firstname, lastname, email }),
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+              fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
+                .then((res) => res.json())
+                .then((data) => setRecipients(data))
+                .then(() => {
+                  console.log("fetched");
+                });
+            }}
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   );
