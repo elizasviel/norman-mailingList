@@ -28,6 +28,17 @@ const Dashboard = () => {
         >
           <h1 style={{ color: "black" }}>No list selected</h1>
         </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            paddingLeft: "360px",
+          }}
+        >
+          <div style={{ transform: "scale(2)", paddingTop: "40px" }}>
+            <UserButton></UserButton>
+          </div>
+        </div>
       </div>
     );
   } else {
