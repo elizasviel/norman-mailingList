@@ -20,7 +20,7 @@ const BrowseLists = ({
         flexDirection: "column",
         backgroundColor: "#432818",
         padding: "10px",
-        width: "21vw",
+        width: "13vw",
       }}
     >
       <h1 style={{ color: "#FFE6A7" }}> Email Lists</h1>
@@ -33,33 +33,26 @@ const BrowseLists = ({
       >
         {mailingLists.map((list) => (
           <div
+            key={list.id}
+            onClick={() => setSelectedList(list)}
+            className="listSelector"
             style={{
               display: "flex",
               flexDirection: "row",
               width: "100%",
+              height: "20px",
               backgroundColor: "#BB9457",
               color: "black",
               alignItems: "center",
             }}
           >
-            <div
-              key={list.id}
-              onClick={() => setSelectedList(list)}
-              style={{
-                alignContent: "center",
-                paddingLeft: "10px",
-              }}
-            >
-              {list.name}
-            </div>
+            <p style={{ paddingLeft: "5px" }}>{list.name}</p>
             <button
               style={{
-                backgroundColor: "black",
                 color: "white",
                 marginLeft: "auto",
-                padding: "10px",
-                width: "2px",
-                height: "2px",
+                height: "20px",
+                borderRadius: "0px",
               }}
               onClick={() => {
                 //check if list empty
@@ -72,14 +65,19 @@ const BrowseLists = ({
                       }).then(() => {
                         fetch("http://localhost:3000/mailingLists")
                           .then((res) => res.json())
-                          .then((data) => getAllMailingLists(data));
+                          .then((data) => getAllMailingLists(data))
+                          .then(() => {
+                            setSelectedList(null);
+                          });
                       });
                     } else {
                       alert("List not empty");
                     }
                   });
               }}
-            ></button>
+            >
+              x
+            </button>
           </div>
         ))}
       </div>
@@ -89,6 +87,7 @@ const BrowseLists = ({
           flexDirection: "row",
           width: "100%",
           marginTop: "auto",
+          gap: "5px",
         }}
       >
         <input
