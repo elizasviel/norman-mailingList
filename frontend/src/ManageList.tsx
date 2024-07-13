@@ -17,66 +17,96 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
       .then((data) => setRecipients(data));
   }, [selectedList]);
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "10px",
-      }}
-    >
-      <h1 style={{ color: "#FFE6A7" }}>{selectedList.name}</h1>
-      <div style={{ overflowY: "scroll" }}>
+  if (recipients.length === 0) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "10px",
+        }}
+      >
+        <h1 style={{ color: "#FFE6A7" }}>{selectedList.name}</h1>
         <div
           style={{
-            border: "0.1px solid #858585",
+            overflowY: "scroll",
+            height: "77%",
+            backgroundColor: "#484848",
+            border: "1px solid #858585",
             borderRadius: "2px",
-            display: "flex",
-            flexDirection: "row",
-            color: "#FFE6A7",
-            paddingBottom: "3px",
-            paddingTop: "3px",
-            backgroundColor: "#432818",
           }}
         >
-          <div style={{ width: "31.5%" }}>First Name</div>
-          <div style={{ width: "31%" }}>Last Name</div>
-          <div>Email</div>
-        </div>
-        {recipients.map((recipient: any, index: any) => (
           <div
-            key={index}
             style={{
               border: "0.1px solid #858585",
               borderRadius: "2px",
-              backgroundColor: "#484848",
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
-              height: "27px",
+              color: "#FFE6A7",
+              paddingBottom: "3px",
+              paddingTop: "3px",
+              backgroundColor: "#432818",
             }}
           >
-            <td style={{ width: "33%", paddingLeft: "4px" }}>
-              {recipient.firstname}
-            </td>
-            <td style={{ width: "33%" }}>{recipient.lastname}</td>
-            <td style={{ width: "33%" }}>{recipient.email}</td>
-
+            <div style={{ width: "31.5%" }}>First Name</div>
+            <div style={{ width: "31%" }}>Last Name</div>
+            <div>Email</div>
+          </div>
+          <div
+            style={{
+              textAlign: "center",
+              paddingTop: "50%",
+            }}
+          >
+            No recipients in {selectedList.name}.<br></br>
+            Please add a recipient to get started.
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "auto",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstname}
+            onChange={(e) => setFirstname(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
+          />
+          <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <button
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "0px",
-                color: "white",
-                height: "100%",
-                width: "6%",
+                backgroundColor: "darkgreen",
+                color: "#FFE6A7",
               }}
               onClick={async () => {
+                console.log(selectedList);
+                if (!emailChecker.test(email)) {
+                  alert("Invalid email");
+                  return;
+                }
                 await fetch(
-                  `http://localhost:3000/mailingLists/${selectedList.id}/${recipient.id}`,
+                  `http://localhost:3000/mailingLists/${selectedList.id}/add`,
                   {
-                    method: "DELETE",
+                    method: "POST",
+                    body: JSON.stringify({ firstname, lastname, email }),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
                   }
                 );
                 fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
@@ -87,72 +117,158 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
                   });
               }}
             >
-              x
+              Submit
             </button>
           </div>
-        ))}
+        </div>
       </div>
+    );
+  } else {
+    return (
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
-          marginTop: "auto",
+          flexDirection: "column",
+          padding: "10px",
         }}
       >
-        <input
-          type="text"
-          placeholder="First Name"
-          value={firstname}
-          onChange={(e) => setFirstname(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={lastname}
-          onChange={(e) => setLastname(e.target.value)}
-        />
-        <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button
+        <h1 style={{ color: "#FFE6A7" }}>{selectedList.name}</h1>
+        <div
+          style={{
+            overflowY: "scroll",
+            height: "77%",
+            backgroundColor: "#484848",
+            border: "1px solid #858585",
+            borderRadius: "2px",
+          }}
+        >
+          <div
             style={{
-              backgroundColor: "darkgreen",
+              border: "0.1px solid #858585",
+              borderRadius: "2px",
+              display: "flex",
+              flexDirection: "row",
               color: "#FFE6A7",
-            }}
-            onClick={async () => {
-              console.log(selectedList);
-              if (!emailChecker.test(email)) {
-                alert("Invalid email");
-                return;
-              }
-              await fetch(
-                `http://localhost:3000/mailingLists/${selectedList.id}/add`,
-                {
-                  method: "POST",
-                  body: JSON.stringify({ firstname, lastname, email }),
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                }
-              );
-              fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
-                .then((res) => res.json())
-                .then((data) => setRecipients(data))
-                .then(() => {
-                  console.log("fetched");
-                });
+              paddingBottom: "3px",
+              paddingTop: "3px",
+              backgroundColor: "#432818",
             }}
           >
-            Submit
-          </button>
+            <div style={{ width: "31.5%" }}>First Name</div>
+            <div style={{ width: "31%" }}>Last Name</div>
+            <div>Email</div>
+          </div>
+          {recipients.map((recipient: any, index: any) => (
+            <div
+              key={index}
+              style={{
+                border: "0.1px solid #858585",
+                borderRadius: "2px",
+                backgroundColor: "#484848",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                height: "27px",
+              }}
+            >
+              <td style={{ width: "33%", paddingLeft: "4px" }}>
+                {recipient.firstname}
+              </td>
+              <td style={{ width: "33%" }}>{recipient.lastname}</td>
+              <td style={{ width: "33%" }}>{recipient.email}</td>
+
+              <button
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "0px",
+                  color: "white",
+                  height: "100%",
+                  width: "6%",
+                }}
+                onClick={async () => {
+                  await fetch(
+                    `http://localhost:3000/mailingLists/${selectedList.id}/${recipient.id}`,
+                    {
+                      method: "DELETE",
+                    }
+                  );
+                  fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
+                    .then((res) => res.json())
+                    .then((data) => setRecipients(data))
+                    .then(() => {
+                      console.log("fetched");
+                    });
+                }}
+              >
+                x
+              </button>
+            </div>
+          ))}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "auto",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstname}
+            onChange={(e) => setFirstname(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
+          />
+          <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <button
+              style={{
+                backgroundColor: "darkgreen",
+                color: "#FFE6A7",
+              }}
+              onClick={async () => {
+                console.log(selectedList);
+                if (!emailChecker.test(email)) {
+                  alert("Invalid email");
+                  return;
+                }
+                await fetch(
+                  `http://localhost:3000/mailingLists/${selectedList.id}/add`,
+                  {
+                    method: "POST",
+                    body: JSON.stringify({ firstname, lastname, email }),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
+                fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
+                  .then((res) => res.json())
+                  .then((data) => setRecipients(data))
+                  .then(() => {
+                    console.log("fetched");
+                  });
+              }}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default ManageList;
