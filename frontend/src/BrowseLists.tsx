@@ -21,14 +21,21 @@ const BrowseLists = ({
         backgroundColor: "#432818",
         padding: "10px",
         width: "13vw",
+        border: "2px solid #FFE6A7",
       }}
     >
       <h1 style={{ color: "#FFE6A7" }}> Email Lists</h1>
+
       <div
         style={{
+          border: "1px solid #858585",
+          borderRadius: "2px",
+
           display: "flex",
           flexDirection: "column",
           overflowY: "scroll",
+          height: "69%",
+          backgroundColor: "#484848",
         }}
       >
         {mailingLists.map((list) => (
@@ -37,6 +44,7 @@ const BrowseLists = ({
             onClick={() => setSelectedList(list)}
             className="listSelector"
             style={{
+              border: "0.1px solid #858585",
               display: "flex",
               flexDirection: "row",
               width: "100%",
@@ -81,6 +89,7 @@ const BrowseLists = ({
           </div>
         ))}
       </div>
+
       <div
         style={{
           display: "flex",

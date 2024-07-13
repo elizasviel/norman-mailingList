@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 const ManageList = ({ selectedList }: { selectedList: any }) => {
-  console.log(selectedList);
   const emailChecker = new RegExp("^.+@.+\\..+$");
   //^ and $ are start and end of string
   //.+ matches 1 or more characters
@@ -13,7 +12,6 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    console.log("hit");
     fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
       .then((res) => res.json())
       .then((data) => setRecipients(data));
@@ -30,27 +28,37 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
       <h1 style={{ color: "#FFE6A7" }}>{selectedList.name}</h1>
       <div style={{ overflowY: "scroll" }}>
         <div
-          style={{ display: "flex", flexDirection: "row", color: "#FFE6A7" }}
+          style={{
+            border: "0.1px solid #858585",
+            borderRadius: "2px",
+            display: "flex",
+            flexDirection: "row",
+            color: "#FFE6A7",
+            paddingBottom: "3px",
+            paddingTop: "3px",
+            backgroundColor: "#432818",
+          }}
         >
           <div style={{ width: "31.5%" }}>First Name</div>
-          <div style={{ width: "30.5%" }}>Last Name</div>
-          <div style={{ width: "33%" }}>Email</div>
+          <div style={{ width: "31%" }}>Last Name</div>
+          <div>Email</div>
         </div>
-        <br></br>
         {recipients.map((recipient: any, index: any) => (
           <div
             key={index}
             style={{
+              border: "0.1px solid #858585",
+              borderRadius: "2px",
               backgroundColor: "#484848",
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "space-between",
-              justifyItems: "center",
               height: "27px",
             }}
           >
-            <td style={{ width: "33%" }}>{recipient.firstname}</td>
+            <td style={{ width: "33%", paddingLeft: "4px" }}>
+              {recipient.firstname}
+            </td>
             <td style={{ width: "33%" }}>{recipient.lastname}</td>
             <td style={{ width: "33%" }}>{recipient.email}</td>
 
