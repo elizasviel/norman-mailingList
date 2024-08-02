@@ -6,69 +6,46 @@ import CreateEmail from "./CreateEmail";
 
 const Dashboard = () => {
   const [selectedList, setSelectedList] = useState(null);
-  if (!selectedList) {
-    return (
-      <div
-        style={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "row",
-          backgroundColor: "#99582A",
-        }}
-      >
-        <BrowseLists setSelectedList={setSelectedList}></BrowseLists>
+
+  return (
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "#99582A",
+      }}
+    >
+      <BrowseLists setSelectedList={setSelectedList} />
+      {!selectedList ? (
         <div
           style={{
-            width: "50vw",
-            alignContent: "center",
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
-            display: "flex",
             alignItems: "center",
+            color: "#FFF",
           }}
         >
-          <h1 style={{ color: "black" }}>No list selected</h1>
+          <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>
+            Welcome to Your Dashboard
+          </h1>
+          <p style={{ fontSize: "1.2rem" }}>
+            Please select a list to get started
+          </p>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            paddingLeft: "360px",
-          }}
-        >
-          <div style={{ transform: "scale(2)", paddingTop: "40px" }}>
-            <UserButton></UserButton>
-          </div>
-        </div>
+      ) : (
+        <>
+          <ManageList selectedList={selectedList} />
+          <CreateEmail />
+        </>
+      )}
+      <div style={{ padding: "20px" }}>
+        <UserButton />
       </div>
-    );
-  } else {
-    return (
-      <div
-        style={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "row",
-          backgroundColor: "#99582A",
-          gap: "40px",
-        }}
-      >
-        <BrowseLists setSelectedList={setSelectedList}></BrowseLists>
-        <ManageList selectedList={selectedList}></ManageList>
-        <CreateEmail></CreateEmail>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            paddingLeft: "20px",
-          }}
-        >
-          <div style={{ transform: "scale(2)", paddingTop: "40px" }}>
-            <UserButton></UserButton>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default Dashboard;

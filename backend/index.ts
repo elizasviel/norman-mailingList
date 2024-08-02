@@ -92,6 +92,28 @@ app.delete("/mailingLists/:id/:recipientId", async (req, res) => {
   res.send({ data: recipient });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+function startServer() {
+  const server = app.listen(3000, () => {
+    console.log("Server is running on port 3000");
+  });
+
+  // Error handling for uncaught exceptions
+  process.on("uncaughtException", (error) => {
+    console.error("Uncaught Exception:", error);
+    server.close(() => {
+      console.log("Server closed. Restarting...");
+      startServer();
+    });
+  });
+
+  // Error handling for unhandled promise rejections
+  process.on("unhandledRejection", (reason, promise) => {
+    console.error("Unhandled Rejection at:", promise, "reason:", reason);
+    server.close(() => {
+      console.log("Server closed. Restarting...");
+      startServer();
+    });
+  });
+}
+
+startServer();
