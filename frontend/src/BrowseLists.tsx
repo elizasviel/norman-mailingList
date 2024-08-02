@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
 
+interface MailingList {
+  id: string;
+  name: string;
+}
+
 const BrowseLists = ({
   setSelectedList,
 }: {
-  setSelectedList: (list: any) => void;
+  setSelectedList: (list: MailingList | null) => void;
 }) => {
-  const [mailingLists, getAllMailingLists] = useState([]);
+  const [mailingLists, setMailingLists] = useState<MailingList[]>([]);
   const [newListName, setNewListName] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:3000/mailingLists")
       .then((res) => res.json())
-      .then((data) => getAllMailingLists(data));
+      .then((data: MailingList[]) => setMailingLists(data));
   }, []);
 
   const containerStyle = {
@@ -58,7 +63,7 @@ const BrowseLists = ({
     });
     fetch("http://localhost:3000/mailingLists")
       .then((res) => res.json())
-      .then((data) => getAllMailingLists(data));
+      .then((data: MailingList[]) => setMailingLists(data));
     setNewListName("");
   };
 
@@ -169,14 +174,16 @@ const BrowseLists = ({
                   e.stopPropagation();
                   fetch(`http://localhost:3000/mailingLists/${list.id}`)
                     .then((res) => res.json())
-                    .then((data) => {
+                    .then((data: any[]) => {
                       if (data.length === 0) {
                         fetch(`http://localhost:3000/mailingLists/${list.id}`, {
                           method: "DELETE",
                         }).then(() => {
                           fetch("http://localhost:3000/mailingLists")
                             .then((res) => res.json())
-                            .then((data) => getAllMailingLists(data))
+                            .then((data: MailingList[]) =>
+                              setMailingLists(data)
+                            )
                             .then(() => {
                               setSelectedList(null);
                             });

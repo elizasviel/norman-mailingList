@@ -4,8 +4,13 @@ import { useState } from "react";
 import { UserButton } from "@clerk/clerk-react";
 import CreateEmail from "./CreateEmail";
 
+interface MailingList {
+  id: string;
+  name: string;
+}
+
 const Dashboard = () => {
-  const [selectedList, setSelectedList] = useState(null);
+  const [selectedList, setSelectedList] = useState<MailingList | null>(null);
 
   return (
     <div
