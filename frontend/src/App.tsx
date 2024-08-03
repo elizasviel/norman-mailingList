@@ -23,7 +23,13 @@ function App() {
           <p style={{ fontSize: "1.2rem", marginBottom: "2rem" }}>
             Please sign in to continue
           </p>
-          <SignInButton mode="modal">
+          <SignInButton
+            mode="modal"
+            signUpForceRedirectUrl="https://norman-mailing-list.vercel.app/"
+            signUpFallbackRedirectUrl="https://norman-mailing-list.vercel.app/"
+            forceRedirectUrl="https://norman-mailing-list.vercel.app/"
+            fallbackRedirectUrl="https://norman-mailing-list.vercel.app/"
+          >
             <button
               style={{
                 backgroundColor: "#f0a500",
