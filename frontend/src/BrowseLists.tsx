@@ -14,7 +14,7 @@ const BrowseLists = ({
   const [newListName, setNewListName] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/mailingLists")
+    fetch("https://mailbackend.vercel.app/mailingLists")
       .then((res) => res.json())
       .then((data: MailingList[]) => setMailingLists(data));
   }, []);
@@ -54,14 +54,14 @@ const BrowseLists = ({
   };
 
   const addNewList = async () => {
-    await fetch("http://localhost:3000/mailingLists", {
+    await fetch("https://mailbackend.vercel.app/mailingLists", {
       method: "POST",
       body: JSON.stringify({ name: newListName }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    fetch("http://localhost:3000/mailingLists")
+    fetch("https://mailbackend.vercel.app/mailingLists")
       .then((res) => res.json())
       .then((data: MailingList[]) => setMailingLists(data));
     setNewListName("");
@@ -172,14 +172,19 @@ const BrowseLists = ({
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  fetch(`http://localhost:3000/mailingLists/${list.id}`)
+                  fetch(
+                    `https://mailbackend.vercel.app/mailingLists/${list.id}`
+                  )
                     .then((res) => res.json())
                     .then((data: any[]) => {
                       if (data.length === 0) {
-                        fetch(`http://localhost:3000/mailingLists/${list.id}`, {
-                          method: "DELETE",
-                        }).then(() => {
-                          fetch("http://localhost:3000/mailingLists")
+                        fetch(
+                          `https://mailbackend.vercel.app/mailingLists/${list.id}`,
+                          {
+                            method: "DELETE",
+                          }
+                        ).then(() => {
+                          fetch("https://mailbackend.vercel.app/mailingLists")
                             .then((res) => res.json())
                             .then((data: MailingList[]) =>
                               setMailingLists(data)
