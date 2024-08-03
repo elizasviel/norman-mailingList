@@ -1,3 +1,4 @@
+/*
 import formData from "form-data";
 import Mailgun from "mailgun.js";
 
@@ -22,3 +23,4 @@ const sendEmail = (to: string, subject: string, body: string) => {
 };
 
 export default sendEmail;
+*/

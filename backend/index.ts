@@ -1,4 +1,4 @@
-import sendEmail from "./mailgun";
+//import sendEmail from "./mailgun";
 import express from "express";
 import cors from "cors";
 import prisma from "./client";
@@ -60,6 +60,7 @@ app.post("/mailingLists/:id/add", async (req, res) => {
 });
 
 //send an email to all recipients in a mailing list. Add the email to "recently sent"
+/*
 app.post("/mailingLists/:id/send", async (req, res) => {
   const recipients = await prisma.recipient.findMany({
     where: {
@@ -81,6 +82,7 @@ app.post("/mailingLists/:id/send", async (req, res) => {
   });
   res.send({ data: emails });
 });
+*/
 
 //delete a recipient from a mailing list
 app.delete("/mailingLists/:id/:recipientId", async (req, res) => {
