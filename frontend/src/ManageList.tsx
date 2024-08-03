@@ -13,7 +13,7 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
   }, [selectedList]);
 
   const fetchRecipients = () => {
-    fetch(`http://localhost:3000/mailingLists/${selectedList.id}`)
+    fetch(`https://mailbackend.vercel.app/mailingLists/${selectedList.id}`)
       .then((res) => res.json())
       .then((data) => setRecipients(data));
   };
@@ -23,13 +23,16 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
       alert("Invalid email");
       return;
     }
-    await fetch(`http://localhost:3000/mailingLists/${selectedList.id}/add`, {
-      method: "POST",
-      body: JSON.stringify({ firstname, lastname, email }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    await fetch(
+      `https://mailbackend.vercel.app/mailingLists/${selectedList.id}/add`,
+      {
+        method: "POST",
+        body: JSON.stringify({ firstname, lastname, email }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     fetchRecipients();
     setFirstname("");
     setLastname("");
@@ -38,7 +41,7 @@ const ManageList = ({ selectedList }: { selectedList: any }) => {
 
   const handleDelete = async (recipientId: string) => {
     await fetch(
-      `http://localhost:3000/mailingLists/${selectedList.id}/${recipientId}`,
+      `https://mailbackend.vercel.app/mailingLists/${selectedList.id}/${recipientId}`,
       {
         method: "DELETE",
       }
