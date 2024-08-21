@@ -21,6 +21,39 @@ function App() {
             Welcome to the Email Sender Demo!
           </h1>
           <p style={{ fontSize: "1.2rem", marginBottom: "2rem" }}>
+            Store and manage your mailing lists in one place.
+          </p>
+          <br />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "1rem",
+              backgroundColor: "#1a1a1a",
+              padding: "1rem",
+              borderRadius: "1rem",
+            }}
+          >
+            <img
+              src="/view0.png"
+              alt="view0"
+              style={{ width: "350px", height: "200px" }}
+            />
+            <img
+              src="/view1.png"
+              alt="view1"
+              style={{ width: "350px", height: "200px" }}
+            />
+            <img
+              src="/view2.png"
+              alt="view2"
+              style={{ width: "350px", height: "200px" }}
+            />
+          </div>
+          <br />
+          <p style={{ fontSize: "1.2rem", marginBottom: "2rem" }}>
             Please sign in to continue
           </p>
           <SignInButton
