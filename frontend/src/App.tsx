@@ -3,7 +3,12 @@ import { SignedOut, SignedIn, SignInButton } from "@clerk/clerk-react";
 
 function App() {
   return (
-    <div style={{ backgroundColor: "#432818", height: "100%" }}>
+    <div
+      style={{
+        backgroundColor: "#432818",
+        height: "100vh",
+      }}
+    >
       <SignedOut>
         <div
           style={{
@@ -11,12 +16,13 @@ function App() {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            height: "100vh",
             padding: "2rem",
             color: "#fff",
             textAlign: "center",
           }}
         >
+          <br></br>
+          <br></br>
           <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>
             Welcome to the Email Sender Demo!
           </h1>
